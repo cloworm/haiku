@@ -12,7 +12,7 @@ function formatData(data) {
   var lines = data.toString().split("\n");
   var lineSplit = [];
   lines.forEach(function(line) {
-    if (!line.match(/\(|\{|\}/)) {
+    if (!line.match(/\(|\{|\}/) && line.match(/\w+/)) {
       lineSplit.push(line.split("  "));
     }
   });
@@ -29,11 +29,16 @@ function countSyllables(pronunciation) {
 function arrayBySyllables(data) {
   var dictionaryLine = formatData(data);
   var syllables = 0;
-  var wordsBySyllables = [];
+  var wordsBySyllables = {};
   dictionaryLine.forEach(function(word) {
     syllables = countSyllables(word[1]);
-    console.log(word, syllables);
+    if (Array.isArray(wordsBySyllables[syllables])) {
+      wordsBySyllables[syllables].push(word[0]);
+    } else {
+      wordsBySyllables[syllables] = [word[0]];
+    }
   });
+  return wordsBySyllables;
 }
 
 console.log(arrayBySyllables(cmudictFile));
