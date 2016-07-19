@@ -1,9 +1,4 @@
 var fs = require("fs");
-var cmudictFile = readCmudictFile('./cmudict.txt');
-
-function readCmudictFile(file) {
-  return fs.readFileSync(file).toString();
-}
 
 function formatData(data) {
   var lines = data.toString().split("\n");
@@ -40,4 +35,7 @@ function arrayBySyllables(data) {
   return wordsBySyllables;
 }
 
-console.log(arrayBySyllables(cmudictFile));
+// return arrayBySyllables(cmudictFile);
+module.exports = {
+  arrayBySyllables: arrayBySyllables,
+};

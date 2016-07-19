@@ -1,16 +1,34 @@
 var fs = require('fs');
+var haikuSyllables = require('./haiku_syllables');
+var cmudictFile = readCmudictFile('./cmudict.txt');
+
+function readCmudictFile(file) {
+  return fs.readFileSync(file).toString();
+}
+
+// function createHaiku(structure) {
+//   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
+//   return structure.map(function(n) {
+//     return wordBank[n][2];
+//   }).join("\n");
+// };
 
 function createHaiku(structure) {
-  //takes any number of arguments and puts each into array
-  //for each number in array, look at same index from haiku_syllable array
-  //use Math.random to generate a random number <= structure
-  //take random word from array of index # generated
-  //structure # - random #
-  //generate random number <= structure remaining
-  //repeat until # = 0
-  // if # = 1 find 1
-  // go to next # in structure
-  console.log("this should log a haiku with the structure " + structure);
+  var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
+  var haiku = "";
+  for (var i = 0; i < structure.length; i++) {
+    var n = structure[i];
+    var m = 0;
+    var randomWord;
+    while (n > 0) {
+      m = Math.ceil(Math.random() * n);
+      randomWord = Math.ceil(Math.random() * wordBank[m].length);
+      haiku += wordBank[m][randomWord] + " ";
+      n -= m;
+    }
+    haiku += "\n";
+  }
+  return haiku;
 }
 
 module.exports = {
