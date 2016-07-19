@@ -8,10 +8,8 @@ function readCmudictFile(file) {
 
 function createHaiku(structure) {
   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
-  var haiku = [];
-  for (var i = 0; i < structure.length; i++) {
+  var haiku = structure.map(function(remainingSyllables) {
     var haikuLine = [];
-    var remainingSyllables = structure[i];
     while (remainingSyllables > 0) {
       var randomSyllableCount = Math.ceil(Math.random() * remainingSyllables);
       var wordsMatchingSyllables = wordBank[randomSyllableCount];
@@ -19,8 +17,9 @@ function createHaiku(structure) {
       haikuLine.push(wordsMatchingSyllables[randomWordIndex]);
       remainingSyllables -= randomSyllableCount;
     }
-    haiku.push(haikuLine.join(" "));
-  }
+    return haikuLine.join(" ");
+  });
+
   return haiku.join("\n");
 }
 
