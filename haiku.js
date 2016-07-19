@@ -6,26 +6,18 @@ function readCmudictFile(file) {
   return fs.readFileSync(file).toString();
 }
 
-// function createHaiku(structure) {
-//   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
-//   return structure.map(function(n) {
-//     return wordBank[n][2];
-//   }).join("\n");
-// };
-
 function createHaiku(structure) {
   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
   var haiku = [];
   for (var i = 0; i < structure.length; i++) {
     var haikuLine = [];
     var remainingSyllables = structure[i];
-    var randomWordIndex = 0;
-    var randomWord;
     while (remainingSyllables > 0) {
-      randomWordIndex = Math.ceil(Math.random() * remainingSyllables);
-      randomWord = Math.ceil(Math.random() * wordBank[randomWordIndex].length);
-      haikuLine.push(wordBank[randomWordIndex][randomWord]);
-      remainingSyllables -= randomWordIndex;
+      var randomSyllableCount = Math.ceil(Math.random() * remainingSyllables);
+      var wordsMatchingSyllables = wordBank[randomSyllableCount];
+      var randomWordIndex = Math.ceil(Math.random() * wordsMatchingSyllables.length);
+      haikuLine.push(wordsMatchingSyllables[randomWordIndex]);
+      remainingSyllables -= randomSyllableCount;
     }
     haiku.push(haikuLine.join(" "));
   }
@@ -35,4 +27,3 @@ function createHaiku(structure) {
 module.exports = {
   createHaiku: createHaiku,
 };
-
