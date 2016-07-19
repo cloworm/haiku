@@ -16,19 +16,18 @@ function readCmudictFile(file) {
 function createHaiku(structure) {
   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
   var haiku = [];
-  var haikuLine = [];
   for (var i = 0; i < structure.length; i++) {
-    var n = structure[i];
-    var m = 0;
+    var haikuLine = [];
+    var remainingSyllables = structure[i];
+    var randomWordIndex = 0;
     var randomWord;
-    while (n > 0) {
-      m = Math.ceil(Math.random() * n);
-      randomWord = Math.ceil(Math.random() * wordBank[m].length);
-      haikuLine.push(wordBank[m][randomWord]);
-      n -= m;
+    while (remainingSyllables > 0) {
+      randomWordIndex = Math.ceil(Math.random() * remainingSyllables);
+      randomWord = Math.ceil(Math.random() * wordBank[randomWordIndex].length);
+      haikuLine.push(wordBank[randomWordIndex][randomWord]);
+      remainingSyllables -= randomWordIndex;
     }
     haiku.push(haikuLine.join(" "));
-    haikuLine = [];
   }
   return haiku.join("\n");
 }
