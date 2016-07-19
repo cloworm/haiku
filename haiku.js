@@ -15,7 +15,8 @@ function readCmudictFile(file) {
 
 function createHaiku(structure) {
   var wordBank = haikuSyllables.arrayBySyllables(cmudictFile);
-  var haiku = "";
+  var haiku = [];
+  var haikuLine = [];
   for (var i = 0; i < structure.length; i++) {
     var n = structure[i];
     var m = 0;
@@ -23,12 +24,13 @@ function createHaiku(structure) {
     while (n > 0) {
       m = Math.ceil(Math.random() * n);
       randomWord = Math.ceil(Math.random() * wordBank[m].length);
-      haiku += wordBank[m][randomWord] + " ";
+      haikuLine.push(wordBank[m][randomWord]);
       n -= m;
     }
-    haiku += "\n";
+    haiku.push(haikuLine.join(" "));
+    haikuLine = [];
   }
-  return haiku;
+  return haiku.join("\n");
 }
 
 module.exports = {
