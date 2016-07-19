@@ -1,41 +1,31 @@
 var fs = require("fs");
 
-function formatData(data) {
-  var lines = data.toString().split("\n");
-  var lineSplit = [];
-  lines.forEach(function(line) {
-    if (!line.match(/\(|\{|\}/) && line.match(/\w+/)) {
-      lineSplit.push(line.split("  "));
-    }
+function formatDictionary(dictionaryString) {
+  var lines = dictionaryString.split("\n");
+  lines = lines.filter(function(line) {
+    return !line.match(/\(|\{|\}/) && line.match(/\w+/);
   });
-  return lineSplit;
+  return lines.map(function(line) {
+    return line.split("  ");
+  });
 }
 
 function countSyllables(pronunciation) {
   var syllables = pronunciation.match(/\d/g);
-  if (syllables) {
-    return syllables.length;
-  } else {
-    return 0;
-  }
+  return syllables ? syllables.length : 0;
 }
 
-function arrayBySyllables(data) {
-  var dictionaryLine = formatData(data);
-  var syllables = 0;
+function arrayBySyllables(dictionaryString) {
+  var dictionaryLines = formatDictionary(dictionaryString);
   var wordsBySyllables = {};
-  dictionaryLine.forEach(function(word) {
-    syllables = countSyllables(word[1]);
-    if (Array.isArray(wordsBySyllables[syllables])) {
-      wordsBySyllables[syllables].push(word[0]);
-    } else {
-      wordsBySyllables[syllables] = [word[0]];
-    }
+  dictionaryLines.forEach(function(word) {
+    var syllables = countSyllables(word[1]);
+    wordsBySyllables.hasOwnProperty(syllables) || (wordsBySyllables[syllables] = []);
+    wordsBySyllables[syllables].push(word[0]);
   });
   return wordsBySyllables;
 }
 
-// return arrayBySyllables(cmudictFile);
 module.exports = {
   arrayBySyllables: arrayBySyllables,
 };
