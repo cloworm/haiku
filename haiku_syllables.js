@@ -27,5 +27,5 @@ function arrayBySyllables(dictionaryString) {
 }
 
 module.exports = {
-  arrayBySyllables: arrayBySyllables,
+  arrayBySyllables: arrayBySyllables
 };
